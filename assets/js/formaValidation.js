@@ -1,8 +1,24 @@
 // Sign Up
+signupForm=document.getElementById('signUp');
+loginForm=document.getElementById('Login');
 username=document.getElementById('userName');
 email=document.getElementById('email');
 password=document.getElementById('password');
 passwordCheck=document.getElementById('passwordCheck');
+
+
+if(signupForm){
+    signupForm.addEventListener('submit',e=>{
+        e.preventDefault();
+        signupValide();
+    });
+}
+else{
+    loginForm.addEventListener('submit',f=>{
+        f.preventDefault();
+        validateLogin();
+});
+}
 
 
 const setError = (element, message) => { //receive html element and error msg
@@ -23,11 +39,17 @@ const setSuccess = element => {
     inputControl.classList.remove('error');
 };
 const isValidEmail = email => { //using regular expression 
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(String(email).toLowerCase()); //return true or false
+}
+const isValidName = username => {
+    const re=/^[a-zA-Z0-9]*$/;
+    return re.test(username);
 }
 
 const signupValide = () => {
+    // var NameFormat = /^[a-zA-Z0-9]*$/;
+    // if (NameSinup.value.match(NameFormat)) {
     const usernameValue = username.value.trim();//remove white spaces
     const emailValue = email.value.trim();
     const passwordValue = password.value.trim();
@@ -35,7 +57,10 @@ const signupValide = () => {
 
     if(usernameValue === '') {
         setError(username, 'Username is required');
-    } else {
+    } else if(!isValidName(usernameValue)){  
+        setError(username, 'Provide a valid username');
+    }
+    else {
         setSuccess(username);
     }
     if (emailValue===''){
@@ -78,7 +103,7 @@ function validateLogin(){
     if (emailloginValue===''){
         setError(emailLogin, 'Email is required');
         
-    }else if(!isValidEmail(emailloginValue)){
+    }else if(!isValidEmail(mailloginValue)){
         setError(emailLogin, 'Provide a valid email address');
     }else {
         setSuccess(emailLogin);
@@ -93,5 +118,6 @@ function validateLogin(){
         setSuccess(passwordLogin); 
     }
 }
+// eventlistener INPUT
 
 
