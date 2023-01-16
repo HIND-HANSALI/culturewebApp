@@ -1,0 +1,16 @@
+/* .success{
+    color: #155724;
+    background: #d4edda;
+    border: 1px solid #61d67c;
+} */
+.form-floating.success input{
+    border-color: #09c372;
+}
+.form-floating.error input{
+    border-color: #ff3860;
+}
+.form-floating .errormsg{
+    color: #ff3860;
+    font-size: 11px;
+    height: 13px;
+}
