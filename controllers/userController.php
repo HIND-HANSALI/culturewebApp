@@ -54,7 +54,32 @@ class UserController extends User{
 
 
     }
-     
+     /* ============================== Login ============================== */
+     public function loginUser(){
+        // if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if(isset($_POST['login'])){
+
+
+                extract($_POST);
+                $this->validateLogin($email,$password);
+
+            }
+        // }
+    }
+
+    public function validateLogin($email,$password){
+
+        if(!$this->emptyInputLogin($email, $password)){
+            header("location: ../pages/login.php?error=emptyinput");
+            exit();
+        }elseif(!$this->invalidEmail($email)){
+            header("location: ../pages/login.php?error=Erroremail");
+            exit();
+        }else{
+            $this->login($email, $password);
+            header('location: ../index.php');
+        }
+    }
 
 
 
@@ -110,7 +135,18 @@ class UserController extends User{
         }
         return $result;
     }
- 
+ /* ============================== Validation-login ============================== */   
+    
+ function emptyInputLogin($email,$password): bool
+ {
+     if(empty($email) ||empty($password)){
+         $result = false;
+     }else{
+         $result = true;
+     }
+
+     return $result;
+ }
 
 }
 
