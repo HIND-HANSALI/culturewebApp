@@ -1,11 +1,30 @@
 <?php
 include_once('../controllers/postController.php');
+include_once('../controllers/categorieController.php');
+include_once('../controllers/userController.php');
+session_start();
+
+if(!isset($_SESSION['good'])){
+    header("location: ../pages/login.php");
+ }
+// die(var_dump($_SESSION));
 // require_once dirname(__DIR__).'postController.php';
 $PostController = new PostController();
-$PostController->addPost();
-// $PostController->deletePost();
 
+
+$PostController->addPost();
+$PostController->updatePost();
+$PostController->deletePost();
 $AllPosts=$PostController->getPosts();
+
+$CategorieController=new CategorieController();
+$AllCategories=$CategorieController->getCategories();
+
+
+$UserController=new UserController();
+$UserController->logout();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,64 +36,68 @@ $AllPosts=$PostController->getPosts();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="../pages/stylee.css" />
-    <title>DashboardHIND</title>
+    <title>Dashboard hind</title>
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 <body>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
-        <!-- <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
-                    class="fas fa-book me-2"></i>CultureWeb</div>
-            <div class="list-group list-group-flush my-3">
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active"><i
-                        class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-edit me-2"></i>Posts</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-paste me-2"></i>Categories</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-users me-2"></i>Users</a>
-                
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
-                        class="fas fa-power-off me-2"></i>Logout</a>
-            </div> -->
-        </div>
+      <!--  include ('../include/sidebar.php')  -->
+       
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <!-- navbar -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
-                <div class="d-flex align-items-center">
-                    <!-- <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i> -->
-                    <h2 class="fs-2 m-0">Dashboard</h2>
-                </div>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>Hind
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
+           <?php include ('../include/navbardash.php')?>
+           
             <div class="container-fluid px-4">
+            <div class="row g-3 my-2">
+                <!-- cards statistics -->
+                    <div class="col-md-3">
+                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                            <div>
+                                <h3 class="fs-2"><?= count($PostController->getPosts()) ?></h3>
+                                <p class="fs-5">Posts</p>
+                            </div>
+                            <!-- <i class="fas fa-paste fs-1 primary-text border rounded-full secondary-bg p-3"></i> -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                            <div>
+                                <h3 class="fs-2"><?= count($CategorieController->getCategories()) ?></h3>
+                                <p class="fs-5">Categories</p>
+                            </div>
+                            <!-- <i
+                                class="fas fa-edit fs-1 primary-text border rounded-full secondary-bg p-3"></i> -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                            <div>
+                            
+                                <h3 class="fs-2"><?= count($PostController->getmyPosts()) ?></h3>
+                                <p class="fs-5">My Posts</p>
+                            </div>
+                            <!-- <i class="fas fa-users fs-1 primary-text border rounded-full secondary-bg p-3"></i> -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                            <div>
+                                <h3 class="fs-2"><?=count($UserController->getAdmins())?></h3>
+                                <p class="fs-5">Admins</p>
+                            </div>
+                            <!-- <i class="fas fa-chalkboard-teacher fs-1 primary-text border rounded-full secondary-bg p-3"></i> -->
+                        </div>
+                    </div>
+                </div>
                 
                
                 <div class="row my-5">
@@ -92,7 +115,7 @@ $AllPosts=$PostController->getPosts();
     
                     
                     <!-- <h3 class="fs-4 mb-3">Recent Orders</h3> -->
-                     <div class="card-header border-bottom">
+                  <div class="card-header border-bottom">
                         
                         
                     <div class=" d-flex justify-content-between">
@@ -107,12 +130,13 @@ $AllPosts=$PostController->getPosts();
                         </div>
                     </div>
                   </div>
+                  
                     <div class="col">
                         <table class="table bg-white rounded shadow-sm  table-hover">
                         <thead>
                                     <tr>
                                         <th scope="col">Id</th>
-                                        
+                                        <th scope="col">Picture</th>
                                         <th scope="col">title</th>
                                         <th scope="col">Content</th>
                                         <th scope="col">Categorie</th>
@@ -120,18 +144,19 @@ $AllPosts=$PostController->getPosts();
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="align-middle" id="">
+                                <!-- <tr class="align-middle" id="">
                                                 <td class="col-1">HI</td>
-                                                <!-- <th scope="col">Picture</th> -->
+                                                
                                                 <td id="" class="text-nowrap">HH</td>
                                                 <td id="" class="text-nowrap">NOO</td>
                                                 <td id="" class="text-nowrap">JIII</td>
                                                 <td class="text-end">
+                                                  
                                                 <a onclick="" class="btn btn-sm btn-warning">Edit</a>
                                                 <a href=""><span class="btn btn-sm btn-danger">Delete</span></a>
                                                 </td>
                                                 
-                                            </tr>
+                                            </tr> -->
 
                                             <?php 
                                                         if(empty($AllPosts))
@@ -140,18 +165,19 @@ $AllPosts=$PostController->getPosts();
                                    
                                             <tr class="align-middle" id="">
                                                 <td class="col-1"><?=$post['id']; ?></td>
-                                                <!-- <td class="text-nowrap">
-                                                    <img id="" src="" style="width:3rem;"/>
-                                                </td> -->
-                                                <td id="" class="text-nowrap"><?=$post['title']; ?></td>
-                                                <td id="" class="text-nowrap"><?=$post['content']; ?></td>
-                                                <td id="" class="text-nowrap"><?=$post['nameCategorie']; ?></td>
+                                                <td class="text-nowrap"> 
+                                                 <!-- $post['picture']; -->
+                                                    <img id="" src="../assets/uploads/'.<?= $post['picture']; ?>.'" style="width:3rem;"/>
+                                                </td>
+                                                <td id="PostTitle<?= $post['id']; ?>" class="text-nowrap"><?=$post['title']; ?></td>
+                                                <td id="PostContent<?= $post['id']; ?>" class="text-nowrap"><?=$post['content']; ?></td>
+                                                <td id="PostCategorie<?= $post['id']; ?>" class="text-nowrap"><?=$post['nameCategorie']; ?></td>
                                                 
                                                 
                                                 <td class="text-end">
-                                                <a onclick="" class="btn btn-sm btn-warning">Edit</a>
+                                                <a onclick="Getpost('<?= $post['id']; ?>','<?= $post['idCategorie']; ?>')" class="btn btn-sm btn-warning" data-bs-toggle='modal' data-bs-target='#postModal'>Edit</a>
 
-                                                <a href="../controllers/postController.php?ide=<?=$post['id']; ?>"><span class="btn btn-sm btn-danger">Delete</span></a>
+                                                <a href="post.php?ide=<?=$post['id']; ?>"><span class="btn btn-sm btn-danger">Delete</span></a>
                                                 </td>
                                                 
                                             </tr>
@@ -174,67 +200,96 @@ $AllPosts=$PostController->getPosts();
     <div class="modal-dialog modal-dialog-centered mt-3 mb-1">
         <div class="modal-content background ">
             <div class="modal-header">
-                <h5 class="" id="exampleModalLabel">Add Post</h5>
+                <h5 class="" id="TitleModal">Add Post</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body pt-0 pb-1">
                 <form  id="form"  method="POST"  enctype="multipart/form-data">
-                <input type="hidden" id="IdInput" name="id" />
+                <input type="hidden" id="IdInputhidden" name="id" value="" />
 
                 <div class="mb-3">
-                <label for="formFile" class="form-label">Image</label>
+                <label for="formFile" class="form-label">Picture</label>
                 <input class="form-control" type="file" id="formFile" name="my_image">
                 </div>
-                <!-- <div class="mb-0">
-                                <label class="col-form-label">Picture</label>
-                                <input id="PictureInput" class="dropify" data-max-file-size-preview="10M" data-height="100" type="file"  name="my_image"/>
-                                <div id="ValidatePicture" class="text-success"></div>
-                                
-                            </div> -->
                   
-                    <div class="mb-0">
+                <div class="mb-3">
                         <label class="col-form-label">title</label>
                         <input type="text" class="form-control" id="TitleInput" name="title" />
                         <div id="ValidateTitle"></div>
                     </div>
-                    <div class="mb-0">
+                <div class="mb-3">
+                    <label for="FormControlTextarea1">Example content</label>
+                    <textarea class="form-control" id="tiny"  name="content" rows="3"></textarea>
+                </div>
+                <!-- <div class="mb-0">
                     <label class="form-label">content</label>
-                    <input type="text" class="form-control" id="GroupeInput" name="content"/>
+                    <input type="text" class="form-control" id="ContentInput" name="content"/>
                     <div id="ValidateContent" class="text-warning"></div>
-                </div> 
+                </div>  -->
                 <div class="mb-3">
                     <label class="modal-title my-2" id="exampleModalLabel">Categorie</label>
-                    <select class="form-select" id="selectstatus" name="categorie" aria-label="Default select example">
-                        <option selected>Please select </option>
-                        <option value="1">One</option>
+                    <select class="form-select" id="CategorieInput" name="categorie" aria-label="Default select example">
+                        <option selected>Please select </option>    
+                        <?php foreach($AllCategories AS $categorie){
+                        echo '<option value="'.$categorie['id'].'">'.$categorie['title'].'</option>';
+                                    }?>
+                        <!-- <option value="1">One</option>
                         <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="3">Three</option> -->
                     </select>
                 </div>
                     <div class="modal-footer">
+                    <span id="savePosts" onclick="multiSave()" name="savePosts" class="btn btn-primary">Save Other</span>
                         <button type="reset" class="btn btn-outline-light text-black" data-bs-dismiss="modal">Cancel</button>
-                        <button id="savePost" type="submit" name="save" class="btn btn-primary">Save</button>
-                        <div id="editPosts" style="display: none">
-                            <button id="updatePost" type="submit" name="updatePostForm" class="btn btn-warning text-black">Update</button>
+                        <button id="savePost" type="submit" name="savePost" class="btn btn-primary">Save</button>
+                        <div id="editPosts" >
+                            <button style="display: none" id="updatePost" type="submit" name="updatePostForm" class="btn btn-warning text-black">Update</button>
                         </div>
                     </div>
                 </form>
             </div>
-        </div>
+
+
+      <div id="anothetModel">
+      
+      </div>
     </div>
+    
 </div>
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+    <!-- <script>
         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");
 
         toggleButton.onclick = function () {
             el.classList.toggle("toggled");
         };
-    </script>
+    </script> -->
+
+
+    <!-- Tiny Script -->
+    <script src="/path/to/tinymce.min.js"></script>
+      <script>
+        tinymce.init({
+          selector: 'textarea#tiny'
+        });
+      </script>
+      <script>$(document).on('focusin', function(e) {
+        if ($(e.target).closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root").length) {
+          e.stopImmediatePropagation();
+        }
+      });</script>
+      <script>// Prevent Bootstrap dialog from blocking focusin
+        document.addEventListener('focusin', (e) => {
+          if (e.target.closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
+            e.stopImmediatePropagation();
+          }
+        });</script>
+
+    <script src="../assets/js/app.js"></script>
 </body>
 
 </html>
