@@ -8,7 +8,7 @@ class Database{
   // contructor to set database credentials
   public function __construct(){
       $this->host = "localhost";
-      $this->db_name = "culturedev";
+      $this->db_name = "culturedev1";
       $this->password = '';
       $this->username = 'root';
   }
@@ -23,7 +23,7 @@ class Database{
           return $conn;
         } catch(PDOException $e) {
           echo "Connection failed: " . $e->getMessage();
-          die;
+          die();
         }
     }
 }
