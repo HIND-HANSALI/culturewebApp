@@ -52,30 +52,54 @@ class User extends Database{
             // $stmt = null;
             // $_SESSION["email"] = $email;
             // $_SESSION["password"] = $password;
+            $_SESSION['error'] = 'password or email is wrong';
+            // header("location: ../pages/signup.php");
+            // header('location: ../pages/post.php');
+
             header("location: ../pages/login.php?error=wronglogin");
             exit();
         }
         //check password if its the same
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        // $stmt = null;
+        
         $checkPwd = password_verify($password, $result["password"]);
+        // echo 'checkPwd: ' . $checkPwd;
 
         if ($checkPwd == false) {
+            
+
             $stmt = null;
             $_SESSION["email"] = $email;
             $_SESSION["password"] = $password;
-            header("location: ../pages/login.php?error=wronglogin");
+            header("location: ../pages/login.php?error=wronLLLglogin");
             exit();
-        } elseif ($checkPwd == true) {
+        } else {
+           
             $_SESSION["name"] = $result["username"];
-            // $_SESSION["id"] =  $result["id_user"];
-            // $_SESSION["role"] =  $result["id_role"];
+            $_SESSION["id"] =  $result["id"];
             $_SESSION["email"] = $email;
-            // $_SESSION["good"] = "goode";
+            $_SESSION['good'] = true;
+            header('location:../pages/post.php');
         }
-        $stmt = null;
     }
- 
+
+/* ==============================get Admins ============================== */
+
+protected function getAdminsDB(){
+
+    $sql = "SELECT * FROM admins ";
+    $stmt = $this ->connect()->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    return $result;
+
+}
+ /* ============================== Logout ============================== */
+ protected function logoutDB(){
+    session_destroy();
+    header("location: ../pages/login.php");
+}
 
 
 }
