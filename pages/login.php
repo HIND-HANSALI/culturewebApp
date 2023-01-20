@@ -1,4 +1,9 @@
-
+<?php
+include_once('../controllers/userController.php');
+session_start();
+$userController=new UserController();
+$userController->loginUser();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,9 +27,15 @@
         <div class="card border-0 shadow rounded-3 my-5">
           <div class="card-body p-4 p-sm-5">
             <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
-            
+            <?php if(isset($_SESSION['error'])){?>
+                <div class="alert alert-danger" role="alert">
+                <?php echo $_SESSION['error'];
+                unset($_SESSION['error']);
+                ?>
+                </div>
+              <?php }?>
            
-            <form  method="post"  id="login">
+            <form  method="post" action="login.php"  id="Login">
               <div class="form-floating mb-3 ">
                 <input type="text" class="form-control" id="emailLogin" name="email" placeholder="name@example.com">
                 <label for="floatingInput">Email address</label>
@@ -40,7 +51,7 @@
 
              
               <div class="d-grid">
-                <button class="btn btn-primary btn-login text-uppercase fw-bold" name="login" type="submit" onclick="validateLogin()">Sign in</button>
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" name="login" type="submit">Sign in</button>
               </div>
               
              <hr class="my-4">
@@ -63,6 +74,6 @@
       </div>
     </div>
   </div>
-  <script src="../assets/js/formaValidation.js"></script>   
+  <!-- <script src="../assets/js/formaValidation.js"></script>    -->
 </body>
 </html>

@@ -1,4 +1,11 @@
-
+<?php
+include_once('../controllers/userController.php');
+$userController= new UserController();
+$userController->signupUser();
+// if(isset($_POST['signup'])){
+//   $userController->signupUser();
+// }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,38 +33,46 @@
           <div class="card bg-white text-dark" style="border-radius: 15px;">
             <div class="card-body p-5">
               <h2 class="text-uppercase fw-light text-center mb-5">Create an account</h2>
-
+              <?php if(isset($_SESSION['error'])){?>
+                <div class="alert alert-danger" role="alert">
+                <?php echo $_SESSION['error'];
+                unset($_SESSION['error']);
               
-              <form action="" method="post" id="signUp">
+                ?>
+                
+                </div>
+              <?php }?>
+              
+              <form  method="POST" id="signUp">
               
 
                 <div class="form-floating mb-4">
-                  <input type="text" id="userName" name="userName" class="form-control form-control-lg " placeholder="Your Name" required/>
+                  <input type="text" id="userName" name="userName" class="form-control form-control-lg " placeholder="Your Name"/>
                   <label class="form-label" for="form3Example1cg">Your Name</label>
                   <div class="errormsg"></div>
                 </div>
 
                 <div class="form-floating mb-4">
-                  <input type="text" id="email" name="email" class="form-control form-control-lg" placeholder="Your Email" />
+                  <input type="text" id="email" name="email" class="form-control form-control-lg" placeholder="Your Email"/>
                   <label class="form-label" for="form3Example3cg">Your Email</label>
                   <div class="errormsg"></div>
                 </div>
 
                 <div class="form-floating mb-4">
-                  <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Password" required/>
+                  <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Password" onkeypress="signupValide()"/>
                   <label class="form-label" for="form3Example4cg">Password</label>
                   <div class="errormsg"></div>
                 </div>
 
                 <div class="form-floating mb-4">
-                  <input type="password" id="passwordCheck" name="passwordCheck" class="form-control form-control-lg" placeholder="Repeat your password" required/>
+                  <input type="password" id="passwordCheck" name="passwordCheck" class="form-control form-control-lg" placeholder="Repeat your password"/>
                   <label class="form-label" for="form3Example4cdg">Repeat your password</label>
                   <div class="errormsg"></div>
                 </div>
 
 
                 <div class="d-grid">
-                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit" name="signup" onclick="signupValide()">Register</button>
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit" name="signup">Register</button>
               </div>
 
                 <p class="text-center mt-4 mb-0">Have already an account? <a href="login.php"
@@ -73,7 +88,7 @@
  
     
 </section>
-<script src="../assets/js/formaValidation.js" > </script>   
+<!-- <script src="../assets/js/formaValidation.js"> </script>    -->
 </body>
 
 
