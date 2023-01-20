@@ -1,17 +1,24 @@
 <?php
-
 require_once 'database.php';
 
 class Post extends Database{
     
     protected function getPostsDB(){
 
-        $sql = "SELECT * FROM posts ";
+        // $sql = "SELECT * FROM posts ";
     $sql="SELECT posts.*,categories.title as nameCategorie,categories.id as idCategorie FROM `posts` INNER JOIN categories on categories.id=posts.categorie_id";
         $stmt = $this ->connect()->prepare($sql);//sql injection
         $stmt->execute();
         $result = $stmt->fetchAll();
         return $result;
+    }
+    protected function getmyPostsDB($idProfile){
+        $sql="SELECT posts.*,categories.title as nameCategorie,categories.id as idCategorie FROM `posts` 
+        INNER JOIN categories on categories.id=posts.categorie_id where posts.admin_id=$idProfile";
+        $stmt = $this ->connect()->prepare($sql);//sql injection
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;   
     }
     
 
@@ -23,11 +30,11 @@ class Post extends Database{
     //     $result = $stmt->fetch();
     //     return $result;
     // }
-    protected function addPostDB($title,$content,$categorie){
-
-        $sql = "INSERT INTO posts (title,content,categorie_id) VALUES (?, ?, ?)";
+    protected function addPostDB($title,$content,$categorie,$picture,$admin){
+        
+        $sql = "INSERT INTO posts (title,content,categorie_id,picture,admin_id) VALUES (?,?,?,?,?)";
         $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$title,$content,$categorie]);
+        $stmt->execute(["$title","$content",$categorie,"$picture",$admin]);
         return 1;
     }
 
@@ -39,10 +46,10 @@ class Post extends Database{
         return 1;
     }
 
-    protected function updatePostDB($id,$title,$content,$categorie){
-        $sql ="UPDATE posts SET title=?,content=?,categorie_id=? WHERE id='$id'";
+    protected function updatePostDB($id,$title,$content,$categorie,$picture){
+        $sql ="UPDATE posts SET title=?,content=?,categorie_id=?,picture=? WHERE id='$id'";
         $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$title,$content,$categorie]);
+        $stmt->execute([$title,$content,$categorie,$picture]);
         return 1;
     }
 
