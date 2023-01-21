@@ -22,6 +22,14 @@ $AllCategories=$CategorieController->getCategories();
 
 
 $UserController=new UserController();
+
+
+
+// if(isset($_POST['logout'])){
+//     // echo 'hiii';
+//     session_destroy();
+//     header("location: login.php");     
+//     }
 $UserController->logout();
 
 
@@ -39,6 +47,15 @@ $UserController->logout();
     <title>Dashboard hind</title>
     <!-- TinyMCE -->
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <!-- DataTables -->
+   <!-- DataTables -->
+   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+
+   
 </head>
 
 <body>
@@ -51,7 +68,7 @@ $UserController->logout();
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <!-- navbar -->
-           <?php include ('../include/navbardash.php')?>
+                        <?php include ('../include/navbardash.php')?>
            
             <div class="container-fluid px-4">
             <div class="row g-3 my-2">
@@ -101,6 +118,7 @@ $UserController->logout();
                 
                
                 <div class="row my-5">
+
                     <!-- search bar -->
                     
                     <div class="d-flex justify-content-end m-2">
@@ -131,8 +149,8 @@ $UserController->logout();
                     </div>
                   </div>
                   
-                    <div class="col">
-                        <table class="table bg-white rounded shadow-sm  table-hover">
+                    <div class="mt-4">
+                        <table id="postsTable" class="table bg-white rounded shadow-sm  table-hover ">
                         <thead>
                                     <tr>
                                         <th scope="col">Id</th>
@@ -253,6 +271,7 @@ $UserController->logout();
       <div id="anothetModel">
       
       </div>
+      
     </div>
     
 </div>
@@ -290,6 +309,7 @@ $UserController->logout();
         });</script>
 
     <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/dataTable.js"></script>
 </body>
 
 </html>

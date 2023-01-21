@@ -1,15 +1,10 @@
 <?php 
-include_once('../controllers/categorieController.php');
 include_once('../controllers/userController.php');
 session_start();
-$CategorieController=new CategorieController();
-$AllCategories=$CategorieController->getCategories(); 
-$CategorieController->addCategories();
-$CategorieController->deleteCategories();
-$CategorieController->updateCategorie();
-
 $UserController=new UserController();
+$AllUsers=$UserController->getAdmins();
 $UserController->logout();
+$UserController->deleteAdmin();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,24 +62,26 @@ $UserController->logout();
                         
                     <div class=" d-flex justify-content-between">
                         <div class="col-auto align-self-center">
-                            <h5 class="mb-0" >All Categories</h5>
+                            <h5 class="mb-0" >All Admins</h5>
                         </div>
-                        <div class="justify-content-end">
+                        <!-- <div class="justify-content-end">
                             <a class="btn rounded-pill btn-success px-lg-3" onclick="" data-bs-toggle="modal" data-bs-target="#categorieModal">
                                 <i class="fas fa-plus mr-2"></i>
                                 <b>Add Categorie</b>
                             </a>
-                        </div>
+                        </div> -->
                     </div>
                   </div>
                   
                     <div class="mt-4">
-                        <table id="categoriesTable" class="table bg-white rounded shadow-sm  table-hover">
+                        <table id="usersTable" class="table bg-white rounded shadow-sm  table-hover">
                         <thead>
                                     <tr>
                                         <th scope="col">Id</th>
                                         
-                                        <th scope="col">title</th>
+                                        <th scope="col">Full Name</th>
+                                        <th scope="col">Email</th>
+
                                         <th class="text-end" scope="col"></th>
                                         
                                     </tr>
@@ -104,21 +101,23 @@ $UserController->logout();
                                             </tr> -->
 
                                             <?php 
-                                                        if(empty($AllCategories))
+                                                        if(empty($AllUsers))
                                                             echo '<tr class="align-middle"><th class="col-3">No result found.</th> </tr>';
-                                                        else{foreach($AllCategories AS $categories){?>
+                                                        else{foreach($AllUsers AS $Users){?>
                                    
                                             <tr class="align-middle" id="">
-                                                <td class="col-1"><?=$categories['id']; ?></td>
+                                                <td class="col-1"><?=$Users['id']; ?></td>
                                                 
-                                                <td id="CategorieTitle<?= $categories['id']; ?>" class="text-nowrap"><?=$categories['title']; ?></td>
+                                                <td id="" class="text-nowrap"><?=$Users['username']; ?></td>
+                                                <td id="" class="text-nowrap"><?=$Users['email']; ?></td>
+                                               
                                                
                                                 
                                                 
                                                 <td class="text-end">
-                                                <a onclick="GetCategorie('<?= $categories['id']; ?>')" class="btn btn-sm btn-warning" data-bs-toggle='modal' data-bs-target='#categorieModal'>Edit</a>
+                                              
 
-                                                <a href="categorie.php?idc=<?=$categories['id']; ?>"><span class="btn btn-sm btn-danger">Delete</span></a>
+                                                <a href="users.php?idu=<?=$Users['id']; ?>"><span class="btn btn-sm btn-danger">Delete</span></a>
                                                 </td>
                                                 
                                             </tr>
@@ -135,43 +134,3 @@ $UserController->logout();
     </div>
     <!-- /#page-content-wrapper -->
     </div>
-
- <!-- Categorie MODAL -->
- <div class="modal fade" id="categorieModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered mt-3 mb-1">
-        <div class="modal-content background ">
-            <div class="modal-header">
-                <h5 class="" id="TitleModal">Add Categorie</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body pt-0 pb-1">
-                <form  id="form"  method="POST"  enctype="multipart/form-data">
-                <input type="hidden" id="IdInputhidden" name="id" value="" />
-
-               
-                  
-                    <div class="mb-0">
-                        <label class="col-form-label">title</label>
-                        <input type="text" class="form-control" id="TitleInput" name="title" />
-                        <div id="ValidateTitle"></div>
-                    </div>
-                    
-               
-                    <div class="modal-footer">
-                        <button type="reset" class="btn btn-outline-light text-black" data-bs-dismiss="modal">Cancel</button>
-                        <button id="saveCategorie" type="submit" name="saveCategorie" class="btn btn-primary">Save</button>
-                        <div id="editPosts" >
-                            <button style="display: none" id="updateCategorie" type="submit" name="updateCategorieForm" class="btn btn-warning text-black">Update</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../assets/js/app.js"></script>
-<script src="../assets/js/dataTable.js"></script>
-</body>
-</html>
