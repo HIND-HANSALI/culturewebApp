@@ -21,7 +21,7 @@ $UserController->deleteAdmin();
    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
 
 
@@ -30,7 +30,7 @@ $UserController->deleteAdmin();
 <body>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
-      <!--  include ('../include/sidebar.php')  -->
+        <?php include ('../include/sidebar.php')?> 
        
         <!-- /#sidebar-wrapper -->
 
@@ -45,14 +45,14 @@ $UserController->deleteAdmin();
                 <div class="row my-5">
                     <!-- search bar -->
                     
-                    <div class="d-flex justify-content-end m-2">
+                    <!-- <div class="d-flex justify-content-end m-2">
                     <div class="input-group rounded w-50 ">
                         <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                         <span class="input-group-text border-0" id="search-addon">
                           <i class="fas fa-search"></i>
                         </span>
                       </div>
-                    </div>
+                    </div> -->
                 
     
                     

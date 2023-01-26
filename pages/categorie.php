@@ -35,7 +35,7 @@ $UserController->logout();
 <body>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
-      <!--  include ('../include/sidebar.php')  -->
+        <?php include ('../include/sidebar.php')?> 
        
         <!-- /#sidebar-wrapper -->
 
@@ -50,14 +50,14 @@ $UserController->logout();
                 <div class="row my-5">
                     <!-- search bar -->
                     
-                    <div class="d-flex justify-content-end m-2">
+                    <!-- <div class="d-flex justify-content-end m-2">
                     <div class="input-group rounded w-50 ">
                         <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                         <span class="input-group-text border-0" id="search-addon">
                           <i class="fas fa-search"></i>
                         </span>
                       </div>
-                    </div>
+                    </div> -->
                 
     
                     
@@ -78,7 +78,7 @@ $UserController->logout();
                     </div>
                   </div>
                   
-                    <div class="mt-4">
+                    <div class="mt-4 table-responsive scrollbar">
                         <table id="categoriesTable" class="table bg-white rounded shadow-sm  table-hover">
                         <thead>
                                     <tr>

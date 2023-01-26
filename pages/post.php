@@ -17,6 +17,10 @@ $PostController->updatePost();
 $PostController->deletePost();
 $AllPosts=$PostController->getPosts();
 
+// echo "<pre>";
+// print_r($AllPosts[0]['picture']);
+// echo "</pre>";
+
 $CategorieController=new CategorieController();
 $AllCategories=$CategorieController->getCategories();
 
@@ -52,7 +56,7 @@ $UserController->logout();
    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
 
    
@@ -61,7 +65,7 @@ $UserController->logout();
 <body>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
-      <!--  include ('../include/sidebar.php')  -->
+        <?php include ('../include/sidebar.php') ?>
        
         <!-- /#sidebar-wrapper -->
 
@@ -121,14 +125,14 @@ $UserController->logout();
 
                     <!-- search bar -->
                     
-                    <div class="d-flex justify-content-end m-2">
+                    <!-- <div class="d-flex justify-content-end m-2">
                     <div class="input-group rounded w-50 ">
                         <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                         <span class="input-group-text border-0" id="search-addon">
                           <i class="fas fa-search"></i>
                         </span>
                       </div>
-                    </div>
+                    </div> -->
                 
     
                     
@@ -149,8 +153,8 @@ $UserController->logout();
                     </div>
                   </div>
                   
-                    <div class="mt-4">
-                        <table id="postsTable" class="table bg-white rounded shadow-sm  table-hover ">
+                    <div class="mt-4 table-responsive scrollbar">
+                        <table id="postsTable" class="table table-striped  bg-white rounded shadow-sm  table-hover ">
                         <thead>
                                     <tr>
                                         <th scope="col">Id</th>
@@ -185,9 +189,12 @@ $UserController->logout();
                                                 <td class="col-1"><?=$post['id']; ?></td>
                                                 <td class="text-nowrap"> 
                                                  <!-- $post['picture']; -->
-                                                    <img id="" src="../assets/uploads/'.<?= $post['picture']; ?>.'" style="width:3rem;"/>
+                                                
+                                                    <img id="PostPicture<?= $post['id']; ?>" src="../assets/uploads/<?=$post['picture'];?>" style="width:3rem;"/>
                                                 </td>
                                                 <td id="PostTitle<?= $post['id']; ?>" class="text-nowrap"><?=$post['title']; ?></td>
+                                              
+
                                                 <td id="PostContent<?= $post['id']; ?>" class="text-nowrap"><?=$post['content']; ?></td>
                                                 <td id="PostCategorie<?= $post['id']; ?>" class="text-nowrap"><?=$post['nameCategorie']; ?></td>
                                                 
@@ -195,7 +202,8 @@ $UserController->logout();
                                                 <td class="text-end">
                                                 <a onclick="Getpost('<?= $post['id']; ?>','<?= $post['idCategorie']; ?>')" class="btn btn-sm btn-warning" data-bs-toggle='modal' data-bs-target='#postModal'>Edit</a>
 
-                                                <a href="post.php?ide=<?=$post['id']; ?>"><span class="btn btn-sm btn-danger">Delete</span></a>
+                                                <a onclick="if(confirm('Are you sure want to delete this record !')){document.location.href='post.php?ide=<?=$post['id']; ?>'}"><span class="btn btn-sm btn-danger">Delete</span></a>
+                                               
                                                 </td>
                                                 
                                             </tr>
@@ -223,43 +231,57 @@ $UserController->logout();
             </div>
             <div class="modal-body pt-0 pb-1">
                 <form  id="form"  method="POST"  enctype="multipart/form-data">
-                <input type="hidden" id="IdInputhidden" name="id" value="" />
+                    <div>
+                    <input type="hidden" id="IdInputhidden" name="id[]" value="" />
 
-                <div class="mb-3">
-                <label for="formFile" class="form-label">Picture</label>
-                <input class="form-control" type="file" id="formFile" name="my_image">
-                </div>
-                  
-                <div class="mb-3">
-                        <label class="col-form-label">title</label>
-                        <input type="text" class="form-control" id="TitleInput" name="title" />
-                        <div id="ValidateTitle"></div>
+                        <!-- <img src="" alt="" id="image-edite" class="img-circle img-thumbnail" style="height: 35px; width: 35px;"> -->
+                        <img hidden src="" alt="" id="image-edite" class="img-circle img-thumbnail" style="width:100px; height:100px; border-color: blue;">
+
+                        <div class="mb-3">
+                        <label for="formFile" class="form-label">Picture</label>
+                        <input class="form-control" type="file" id="PictureInput" name="my_image[]">
+                        <div id="ValidatePicture" class="text-success"></div>
+                        <small></small>
+                        </div>
+                        
+                        <div class="mb-3">
+                                <label class="col-form-label">title</label>
+                                <input type="text" class="form-control" id="TitleInput" name="title[]" />
+                                <div id="ValidateTitle"></div>
+                                <small></small>
+                            </div>
+                        <div class="mb-3">
+                            <label for="FormControlTextarea1">Example content</label>
+                            <textarea class="form-control" id="tiny"  name="content[]" rows="3"></textarea>
+                        </div>
+                        <!-- <div class="mb-0">
+                            <label class="form-label">content</label>
+                            <input type="text" class="form-control" id="ContentInput" name="content"/>
+                            <div id="ValidateContent" class="text-warning"></div>
+                        </div>  -->
+                        <div class="mb-3">
+                            <label class="modal-title my-2" id="exampleModalLabel">Categorie</label>
+                            <select class="form-select" id="CategorieInput" name="categorie[]" aria-label="Default select example">
+                                <option selected>Please select </option>    
+                                <?php foreach($AllCategories AS $categorie){
+                                echo '<option value="'.$categorie['id'].'">'.$categorie['title'].'</option>';
+                                            }?>
+                                <!-- <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option> -->
+                            </select>
+                            <small class="fw-bold"></small>
+                        </div>
                     </div>
-                <div class="mb-3">
-                    <label for="FormControlTextarea1">Example content</label>
-                    <textarea class="form-control" id="tiny"  name="content" rows="3"></textarea>
-                </div>
-                <!-- <div class="mb-0">
-                    <label class="form-label">content</label>
-                    <input type="text" class="form-control" id="ContentInput" name="content"/>
-                    <div id="ValidateContent" class="text-warning"></div>
-                </div>  -->
-                <div class="mb-3">
-                    <label class="modal-title my-2" id="exampleModalLabel">Categorie</label>
-                    <select class="form-select" id="CategorieInput" name="categorie" aria-label="Default select example">
-                        <option selected>Please select </option>    
-                        <?php foreach($AllCategories AS $categorie){
-                        echo '<option value="'.$categorie['id'].'">'.$categorie['title'].'</option>';
-                                    }?>
-                        <!-- <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option> -->
-                    </select>
-                </div>
+                    <div id="anothetModel">
+      
+                    </div>
+               
                     <div class="modal-footer">
                     <span id="savePosts" onclick="multiSave()" name="savePosts" class="btn btn-primary">Save Other</span>
                         <button type="reset" class="btn btn-outline-light text-black" data-bs-dismiss="modal">Cancel</button>
                         <button id="savePost" type="submit" name="savePost" class="btn btn-primary">Save</button>
+                        <input type="hidden" name="txtLenght" id="txtLenght">
                         <div id="editPosts" >
                             <button style="display: none" id="updatePost" type="submit" name="updatePostForm" class="btn btn-warning text-black">Update</button>
                         </div>
@@ -268,9 +290,7 @@ $UserController->logout();
             </div>
 
 
-      <div id="anothetModel">
       
-      </div>
       
     </div>
     

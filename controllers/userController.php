@@ -7,8 +7,10 @@ class UserController extends User{
 
       /* ============================== SignUp ============================== */
     public function signupUser(){
+        
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if(isset($_POST['signup'])){             
+            // userName signup
+            if(isset($_POST['userName'])){             
                 extract($_POST);
 
                 echo $_SESSION["name"] = $userName;
@@ -55,14 +57,15 @@ class UserController extends User{
     }
      /* ============================== Login ============================== */
      public function loginUser(){
-        // if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if(isset($_POST['login'])){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            // login email
+            if(isset($_POST['email'])){
 
                 extract($_POST);
                 $this->validateLogin($email,$password);
 
             }
-        // }
+        }
     }
 
     public function validateLogin($email,$password){
@@ -165,8 +168,12 @@ class UserController extends User{
     
         if(isset($_GET['idu'])){
           
+
           $result=$this->deleteAdminsDB($_GET['idu']);
-          
+
+           if($result==1){
+              header('location:../pages/users.php');
+            }
       
         }
       }

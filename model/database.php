@@ -4,7 +4,7 @@ class Database{
   private  $db_name;
   private  $username;
   private  $password;
-  private  $conn;
+
   // contructor to set database credentials
   public function __construct(){
       $this->host = "localhost";

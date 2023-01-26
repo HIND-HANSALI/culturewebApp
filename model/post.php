@@ -45,13 +45,23 @@ class Post extends Database{
         $stmt->execute([$id]);
         return 1;
     }
+    protected function updatePostwithoutpicDB($id,$title,$content,$categorie){
+        $sql ="UPDATE posts SET title=?,content=?,categorie_id=? WHERE id='$id'";  
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$title,$content,$categorie]); 
+    }
 
     protected function updatePostDB($id,$title,$content,$categorie,$picture){
+        // if($picture==''){
+        //     $sql ="UPDATE posts SET title=?,content=?,categorie_id=? WHERE id='$id'";  
+        //     $stmt = $this->connect()->prepare($sql);
+        //     $stmt->execute([$title,$content,$categorie]); 
+        // }else{
         $sql ="UPDATE posts SET title=?,content=?,categorie_id=?,picture=? WHERE id='$id'";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$title,$content,$categorie,$picture]);
-        return 1;
-    }
+        return 1;}
+    // }
 
 
 }

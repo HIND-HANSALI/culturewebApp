@@ -15,6 +15,7 @@ class User extends Database{
             header("location : ../pages/signup.php?error=stmtfailed");
             exit();
         }
+
         $stmt = null;
     }
     protected function checkEmailSignupBD($email){
@@ -70,8 +71,8 @@ class User extends Database{
             
 
             $stmt = null;
-            $_SESSION["email"] = $email;
-            $_SESSION["password"] = $password;
+            // $_SESSION["email"] = $email;
+            // $_SESSION["password"] = $password;
             header("location: ../pages/login.php?error=wronLLLglogin");
             exit();
         } else {

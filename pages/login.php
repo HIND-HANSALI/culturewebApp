@@ -20,7 +20,7 @@ $userController->loginUser();
 
 </head>
 
-<body class="overflow-hidden bgstyle ">
+<body class="overflow-hidden">
 <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -74,6 +74,6 @@ $userController->loginUser();
       </div>
     </div>
   </div>
-  <!-- <script src="../assets/js/formaValidation.js"></script>    -->
+  <script src="../assets/js/formaValidation.js"></script>   
 </body>
 </html>

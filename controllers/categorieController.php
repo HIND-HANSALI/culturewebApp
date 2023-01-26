@@ -24,6 +24,9 @@ class CategorieController extends Categorie{
         if (isset($_POST['updateCategorieForm'])){
             extract($_POST);
             $result=$this->updateCategorieDB($id,$title);
+            if($result==1){
+                header('location:../pages/categorie.php');
+              }
         }
     }
     public function deleteCategories(){
@@ -31,7 +34,7 @@ class CategorieController extends Categorie{
         
             $result=$this->deleteCategorieDB($_GET['idc']);
             if($result==1){
-                echo 'hiii';
+                header('location:../pages/categorie.php');
             }
         }
 
