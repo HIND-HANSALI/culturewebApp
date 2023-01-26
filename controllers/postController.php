@@ -21,18 +21,28 @@ class PostController extends Post{
     //     if(isset($_GET['id'])){
     //         $result = $this->getOnePostDB($_GET['id']);
     //         return $result;
-    //     }
+    //     } 
     // }
  
     public function addPost(){
-      // ,$_SESSION["id"]
-        
+
+
+
         if(isset($_POST['savePost'])){
-          $image=$this->uploadimage();
-            extract($_POST);
-            $result=$this->addPostDB($title,$content,$categorie,$image,$_SESSION["id"]);
+          // echo "<pre>";
+          // print_r($_FILES['my_image']);
+          // echo "</pre>";
+          for($i = 0 ; $i <count($_POST['title'])  ; $i++){
+            
+            $image=$this->uploadimage($_FILES['my_image'] , $i);
+
+            $result=$this->addPostDB($_POST['title'][$i],$_POST['content'][$i],$_POST['categorie'][$i],$image, $_SESSION["id"]);
             if($result==1){
               header('location:../pages/post.php');
+            }
+
+            // $result=$this->addPostDB($title,$content,$categorie,$image,$_SESSION["id"]);
+
             }
 
            
@@ -43,11 +53,25 @@ class PostController extends Post{
 
       if(isset($_POST['updatePostForm'])){
         
-        extract($_POST);
-        $image=$this->uploadimage();
-        $result=$this->updatePostDB($id,$title,$content,$categorie,$image);
+
+        
+        // extract();
+
+        
+        $i=0;
+        if($_FILES['my_image']['name'][0]  ==""){
+          
+          
+          $result=$this->updatePostwithoutpicDB($_POST['id'][$i],$_POST['title'][$i],$_POST['content'][$i],$_POST['categorie'][$i]);
+          // $result=$this->addPostDB($_POST['title'][$i],$_POST['content'][$i],$_POST['categorie'][$i],$image, $_SESSION["id"]);
+
+        }else{
+          $image=$this->uploadimage($_FILES['my_image'] , 0);
+        $result=$this->updatePostDB($_POST['id'][$i],$_POST['title'][$i],$_POST['content'][$i],$_POST['categorie'][$i],$image);
+        // $result=$this->updatePostwithoutpicDB($_POST['id'][$i],$_POST['title'][$i],$_POST['content'],$_POST['categorie'][$i]);
+      }
         if($result==1){
-          // echo 'tfou hii';
+          // echo 'hii';
         }
       }
     }
@@ -63,18 +87,17 @@ class PostController extends Post{
     }
 
 
-    public function uploadimage()
+    public function uploadimage($image , $index)
     {
-     if (isset($_FILES['my_image']))
+    //  if (isset($_FILES['my_image']))
     {
-    
         // global $conn;
 
-        $img_name = $_FILES['my_image']['name'];
-        $img_size = $_FILES['my_image']['size'];
-        $tmp_name = $_FILES['my_image']['tmp_name'];// temporer folder
-        $error = $_FILES['my_image']['error'];
-
+      $img_name = $image['name'][$index];
+      $img_size = $image['size'][$index];
+      $tmp_name = $image['tmp_name'][$index];// temporer folder
+      $error = $image['error'][$index];
+    if($img_name !=""){
             if ($error === 0)
             {
              
@@ -104,11 +127,11 @@ class PostController extends Post{
                 }
             else
             {
-
                 $_SESSION['Error'] = 'unknown error occurred!';
                 // header('location: .././pages/home.php'); 
                 
             }
+          } else $new_img_name ='';
     }
     
     return $new_img_name;
@@ -117,5 +140,3 @@ class PostController extends Post{
       
 
 }
-
-?>

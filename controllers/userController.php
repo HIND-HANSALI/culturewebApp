@@ -161,13 +161,24 @@ class UserController extends User{
             return $result;
 
     }
+    public function deleteAdmin(){
+    
+        if(isset($_GET['idu'])){
+          
+          $result=$this->deleteAdminsDB($_GET['idu']);
+          
+      
+        }
+      }
+    /* ============================== Logout ============================== */
     public function logout(){
         if(isset($_POST['logout'])){
-        $this -> logoutDB();
-
+            session_destroy();
+            header("location: ../pages/login.php");     
+            }
             
         }
-}
+
 
 }
 

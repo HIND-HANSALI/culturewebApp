@@ -95,11 +95,15 @@ protected function getAdminsDB(){
     return $result;
 
 }
- /* ============================== Logout ============================== */
- protected function logoutDB(){
-    session_destroy();
-    header("location: ../pages/login.php");
+protected function deleteAdminsDB($id){
+
+    $sql = "DELETE FROM admins WHERE id = ?";
+    $stmt = $this->connect() ->prepare($sql);
+    $stmt->execute([$id]);
+    return 1;
 }
+ 
+
 
 
 }
