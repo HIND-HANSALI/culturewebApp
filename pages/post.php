@@ -231,52 +231,55 @@ $UserController->logout();
             </div>
             <div class="modal-body pt-0 pb-1">
                 <form  id="form"  method="POST"  enctype="multipart/form-data">
-                    <div>
-                    <input type="hidden" id="IdInputhidden" name="id[]" value="" />
+                    <div id="allForms">
+                        <div id="form1">
+                                <input type="hidden" id="IdInputhidden" name="id[]" value="" />
 
-                        <!-- <img src="" alt="" id="image-edite" class="img-circle img-thumbnail" style="height: 35px; width: 35px;"> -->
-                        <img hidden src="" alt="" id="image-edite" class="img-circle img-thumbnail" style="width:100px; height:100px; border-color: blue;">
+                                <!-- <img src="" alt="" id="image-edite" class="img-circle img-thumbnail" style="height: 35px; width: 35px;"> -->
+                                <img hidden src="" alt="" id="image-edite" class="img-circle img-thumbnail" style="width:100px; height:100px; border-color: blue;">
 
-                        <div class="mb-3">
-                        <label for="formFile" class="form-label">Picture</label>
-                        <input class="form-control" type="file" id="PictureInput" name="my_image[]">
-                        <div id="ValidatePicture" class="text-success"></div>
-                        <small></small>
-                        </div>
-                        
-                        <div class="mb-3">
-                                <label class="col-form-label">title</label>
-                                <input type="text" class="form-control" id="TitleInput" name="title[]" />
-                                <div id="ValidateTitle"></div>
+                                <div class="mb-3">
+                                <label for="formFile" class="form-label">Picture</label>
+                                <input class="form-control" type="file" id="PictureInput" name="my_image[]">
+                                <div id="ValidatePicture" class="text-success"></div>
                                 <small></small>
-                            </div>
-                        <div class="mb-3">
-                            <label for="FormControlTextarea1">Example content</label>
-                            <textarea class="form-control" id="tiny"  name="content[]" rows="3"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                        <label class="col-form-label">title</label>
+                                        <input type="text" class="form-control" id="TitleInput" name="title[]" />
+                                        <div id="ValidateTitle"></div>
+                                        <small></small>
+                                    </div>
+                                <div class="mb-3">
+                                    <!-- <label for="FormControlTextarea1">Example content</label>
+                                    <textarea class="form-control" id="tiny"  name="content[]" rows="3"></textarea>
+                                </div> -->
+                                <div class="mb-0">
+                                    <label class="form-label">content</label>
+                                    <textarea class="form-control" id="ContentInput" name="content[]" rows="3"></textarea>
+                                    <div id="ValidateContent" class="text-warning"></div>
+                                </div> 
+                                <div class="mb-3">
+                                    <label class="modal-title my-2" id="exampleModalLabel">Categorie</label>
+                                    <select class="form-select" id="CategorieInput" name="categorie[]" aria-label="Default select example">
+                                        <option selected>Please select </option>    
+                                        <?php foreach($AllCategories AS $categorie){
+                                        echo '<option value="'.$categorie['id'].'">'.$categorie['title'].'</option>';
+                                                    }?>
+                                        <!-- <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option> -->
+                                    </select>
+                                    <small class="fw-bold"></small>
+                                </div>
                         </div>
-                        <!-- <div class="mb-0">
-                            <label class="form-label">content</label>
-                            <input type="text" class="form-control" id="ContentInput" name="content"/>
-                            <div id="ValidateContent" class="text-warning"></div>
-                        </div>  -->
-                        <div class="mb-3">
-                            <label class="modal-title my-2" id="exampleModalLabel">Categorie</label>
-                            <select class="form-select" id="CategorieInput" name="categorie[]" aria-label="Default select example">
-                                <option selected>Please select </option>    
-                                <?php foreach($AllCategories AS $categorie){
-                                echo '<option value="'.$categorie['id'].'">'.$categorie['title'].'</option>';
-                                            }?>
-                                <!-- <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option> -->
-                            </select>
-                            <small class="fw-bold"></small>
-                        </div>
+                   
                     </div>
-                    <div id="anothetModel">
+                    <!-- <div id="anothetModel">
       
+                    </div> -->
                     </div>
-               
                     <div class="modal-footer">
                     <span id="savePosts" onclick="multiSave()" name="savePosts" class="btn btn-primary">Save Other</span>
                         <button type="reset" class="btn btn-outline-light text-black" data-bs-dismiss="modal">Cancel</button>

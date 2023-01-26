@@ -12,11 +12,16 @@ document.getElementById('IdInputhidden').value=id;
 
 document.getElementById('TitleModal').innerText='Update Post';    
 document.getElementById('TitleInput').value=document.querySelector(`#PostTitle${id}`).innerText;
-// document.getElementById('tiny').value=document.querySelector(`#PostContent${id}`).innerText;
+document.getElementById('ContentInput').value=document.querySelector(`#PostContent${id}`).innerText;
 
-tinymce.activeEditor.setContent(document.querySelector(`#PostContent${id}`).innerText);
-// document.getElementById('CategorieInput').value=document.querySelector(`#PostCategorie${id}`);
+//get value tiny
+// tinymce.activeEditor.setContent(document.querySelector(`#PostContent${id}`).innerText);
+
 document.getElementById('CategorieInput').value= categorie;
+
+
+
+
 
 
 // let picTitle = document.querySelector(`#PostPicture${id}`).getAttribute('src');
@@ -55,71 +60,88 @@ function GetCategorie(id){
 document.getElementById('TitleModal').innerText='Update Categorie';
 document.getElementById('TitleInput').value=document.querySelector(`#CategorieTitle${id}`).innerText;
 }
-
-
-
+// Dupliquer form using cloneNode
 function multiSave(){
-    lenght++;
-    document.getElementById('anothetModel').innerHTML+=`<div class="modal-content background ">
+    const article = document.getElementById('form1');
+    const articles = document.getElementById('allForms');
+    let Copyarticle = article.cloneNode(true);
+    var newBtn = document.createElement("a");
+    newBtn.className = "btn btn-secondary";
+    newBtn.innerHTML = "Remove";
+    newBtn.addEventListener("click",function remove(){
+      Copyarticle.remove();
+    });
+  
+    Copyarticle.appendChild(newBtn);
+  
+    articles.appendChild(Copyarticle)
     
-    <div class="modal-body pt-0 pb-1">
-        <form  id="form"  method="POST"  enctype="multipart/form-data">
-        <input type="hidden" id="IdInputhidden" name="id" value="" />
+}
 
-        <div class="mb-3">
-        <label for="formFile" class="form-label">Picture</label>
-        <input class="form-control" type="file" id="formFile2" name="my_image[]">
-        </div>
+
+
+// function multiSave(){
+//     lenght++;
+//     document.getElementById('anothetModel').innerHTML+=`<div class="modal-content background ">
+    
+//     <div class="modal-body pt-0 pb-1">
+//         <form  id="form"  method="POST"  enctype="multipart/form-data">
+//         <input type="hidden" id="IdInputhidden" name="id" value="" />
+
+//         <div class="mb-3">
+//         <label for="formFile" class="form-label">Picture</label>
+//         <input class="form-control" type="file" id="formFile2" name="my_image[]">
+//         </div>
           
-        <div class="mb-0">
-                <label class="col-form-label">title</label>
-                <input type="text" class="form-control" id="TitleInput2" name="title[]" />
-                <div id="ValidateTitle"></div>
-            </div>
+//         <div class="mb-0">
+//                 <label class="col-form-label">title</label>
+//                 <input type="text" class="form-control" id="TitleInput2" name="title[]" />
+//                 <div id="ValidateTitle"></div>
+//             </div>
        
-        <div class="mb-3">
-                <label for="FormControlTextarea1">Example content</label>
-                <textarea class="form-control" id="tiny"  name="content[]" rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-            <label class="modal-title my-2" id="exampleModalLabel">Categorie</label>
-            <select class="form-select" id="CategorieInput${lenght}" name="categorie[]" aria-label="Default select example">
+//         <div class="mb-3">
+//                 <label for="FormControlTextarea1">Example content</label>
+//                 <textarea class="form-control" id="tiny"  name="content[]" rows="3"></textarea>
+//         </div>
+//         <div class="mb-3">
+//             <label class="modal-title my-2" id="exampleModalLabel">Categorie</label>
+//             <select class="form-select" id="CategorieInput${lenght}" name="categorie[]" aria-label="Default select example">
                 
-            </select>
+//             </select>
 
-        </div>
+//         </div>
 
-        </form>
-    </div>
-    <button class="btn btn-sm btn-danger" id="btnRemove">Delete</button>
-    </div>`;
-$('#txtLenght').val(lenght); 
-console.log(lenght);
-remlireSelect();
+//         </form>
+//     </div>
+//     <button class="btn btn-sm btn-danger" id="btnRemove">Delete</button>
+//     </div>`;
+// $('#txtLenght').val(lenght); 
+// console.log(lenght);
+// remlireSelect();
 
-}
+// }
 
-$('body').on('click','#btnRemove',function(){
-    $(this).closest('div').remove();
-    lenght--;
-    $('#anothetModel').val(lenght);
-    document.getElementById('txtLenght').value = lenght ;
-});
+// $('body').on('click','#btnRemove',function(){
+//     $(this).closest('div').remove();
+//     lenght--;
+//     $('#anothetModel').val(lenght);
+//     document.getElementById('txtLenght').value = lenght ;
+// });
 
-function remlireSelect(){
-    let Categorie = document.getElementById('CategorieInput'+lenght);
-    // console.log(Categorie);
-    let cat = document.getElementById('CategorieInput').children;
-    // console.log(cat);
+// function remlireSelect(){
+//     let Categorie = document.getElementById('CategorieInput'+lenght);
+//     // console.log(Categorie);
+//     let cat = document.getElementById('CategorieInput').children;
+//     // console.log(cat);
     
-    for(let i= 0 ; i < cat.length ; i++){
-        let option = document.createElement("option");
+//     for(let i= 0 ; i < cat.length ; i++){
+//         let option = document.createElement("option");
         
-        option.text  = cat[i].text;
-        option.value = cat[i].value;
-        Categorie.appendChild(option);
-    }
-}
+//         option.text  = cat[i].text;
+//         option.value = cat[i].value;
+//         Categorie.appendChild(option);
+//     }
+// }
 
 
 // form validation modal
